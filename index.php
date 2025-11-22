@@ -1,0 +1,90 @@
+<?php
+
+// Homework: String Functions and array functions in PHP
+
+// First String Functions:
+// 1. count()
+echo count([15, 25, 35, 45]); // 4
+
+// 2. array_push()
+$fruits = ["apple", "banana"];
+array_push($fruits, "orange");
+
+// 3. array_pop()
+$numbers = [100, 200, 300];
+array_pop($numbers);
+
+// 4. array_shift()
+$languages = ["Spanish", "English", "French"];
+array_shift($languages);
+
+// 5. array_unshift()
+$months = ["February", "March"];
+array_unshift($months, "January");
+
+// 6. array_merge()
+$array1 = ["a", "b"];
+$array2 = ["c", "d"];
+print_r(array_merge($array1, $array2));
+
+// 7. in_array()
+echo in_array(50, [10, 20, 30]); // false
+
+// 8. array_search()
+echo array_search("grape", ["apple", "grape", "mango"]); // 1
+
+// 9. sort()
+$values = [300, 100, 200];
+sort($values);
+
+// 10. rsort()
+$letters = ["X", "Z", "Y"];
+rsort($letters);
+
+// 11. array_reverse()
+$items = ["first", "second", "third"];
+print_r(array_reverse($items));
+
+// Second Array Functions:
+// 1. count()
+echo count([15, 25, 35, 45]); // 4
+
+// 2. array_push()
+$fruits = ["apple", "banana"];
+array_push($fruits, "orange");
+
+// 3. array_pop()
+$numbers = [100, 200, 300];
+array_pop($numbers);
+
+// 4. array_shift()
+$languages = ["Spanish", "English", "French"];
+array_shift($languages);
+
+// 5. array_unshift()
+$months = ["February", "March"];
+array_unshift($months, "January");
+
+// 6. array_merge()
+$array1 = ["a", "b"];
+$array2 = ["c", "d"];
+print_r(array_merge($array1, $array2));
+
+// 7. in_array()
+echo in_array(50, [10, 20, 30]); // false
+
+// 8. array_search()
+echo array_search("grape", ["apple", "grape", "mango"]); // 1
+
+// 9. sort()
+$values = [300, 100, 200];
+sort($values);
+
+// 10. rsort()
+$letters = ["X", "Z", "Y"];
+rsort($letters);
+
+// 11. array_reverse()
+$items = ["first", "second", "third"];
+print_r(array_reverse($items));
+?>
