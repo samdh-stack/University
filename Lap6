@@ -1,0 +1,66 @@
+:مثال للجداول
+Sql
+accounts(id, balance)
+transactions(id, from_account, to_account, amount, created_at)
+________________________________________________________________________________________________________________________
+:كود PHP باستخدام PDO
+
+<?php
+
+// الاتصال بقاعدة البيانات
+$pdo = new PDO(
+    "mysql:host=localhost;dbname=bank",
+    "root",
+    ""
+);
+
+$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+// بيانات التحويل
+$fromAccount = 1;
+$toAccount   = 2;
+$amount      = 500;
+
+try {
+    // بدء المعاملة
+    $pdo->beginTransaction();
+
+    // 1 التحقق من الرصيد
+    $stmt = $pdo->prepare("SELECT balance FROM accounts WHERE id = ?");
+    $stmt->execute([$fromAccount]);
+    $balance = $stmt->fetchColumn();
+
+    if ($balance < $amount) {
+        throw new Exception("الرصيد غير كافٍ");
+    }
+
+    // 2 خصم الرصيد من الحساب الأول
+    $stmt = $pdo->prepare(
+        "UPDATE accounts SET balance = balance - ? WHERE id = ?"
+    );
+    $stmt->execute([$amount, $fromAccount]);
+
+    // 3 إضافة الرصيد للحساب الثاني
+    $stmt = $pdo->prepare(
+        "UPDATE accounts SET balance = balance + ? WHERE id = ?"
+    );
+    $stmt->execute([$amount, $toAccount]);
+
+    // 4 تسجيل العملية
+    $stmt = $pdo->prepare(
+        "INSERT INTO transactions (from_account, to_account, amount, created_at)
+         VALUES (?, ?, ?, NOW())"
+    );
+    $stmt->execute([$fromAccount, $toAccount, $amount]);
+
+    // تأكيد المعاملة
+    $pdo->commit();
+
+    echo "تم التحويل بنجاح ";
+
+} catch (Exception $e) {
+    // التراجع عن كل العمليات عند الخطأ
+    $pdo->rollBack();
+    echo "فشل التحويل : " . $e->getMessage();
+}
+?>
