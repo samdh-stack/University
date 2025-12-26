@@ -1,0 +1,137 @@
+<?php
+/* =================================================
+   Section 1: Date and Time Functions in PHP
+   ================================================= */
+
+$todayDate = date("d-m-Y");
+$nowTime   = date("H:i:s");
+
+echo "Today's Date: $todayDate <br>";
+echo "Current Time: $nowTime <br><br>";
+
+$firstDate  = strtotime("2025-03-01");
+$secondDate = strtotime("2025-03-20");
+
+$totalDays = ($secondDate - $firstDate) / 86400;
+
+echo "Number of days between the two dates: $totalDays";
+echo "<br><br>";
+
+/* =================================================
+   Section 2: File Handling Operations
+   ================================================= */
+
+$filePath = "record.txt";
+$message  = "This file was created and written using PHP.";
+
+$fileRef = fopen($filePath, "w");
+fwrite($fileRef, $message);
+fclose($fileRef);
+
+$fileRef = fopen($filePath, "r");
+$fileContent = fread($fileRef, filesize($filePath));
+fclose($fileRef);
+
+echo "File content is:<br>";
+echo $fileContent;
+echo "<br><br>";
+
+/* =================================================
+   Section 3: Database Connection Using MySQL
+   ================================================= */
+
+$dbHost = "localhost";
+$dbUser = "root";
+$dbPass = "";
+$dbName = "test";
+
+$dbConnection = mysqli_connect($dbHost, $dbUser, $dbPass, $dbName);
+
+if ($dbConnection) {
+    echo "Database connection successful";
+} else {
+    echo "Database connection failed";
+}
+
+mysqli_close($dbConnection);
+?>
+________________________________________________________________________________________________________________________
+________________________________________________________________________________________________________________________
+مالفرق بينهم
+ MySQL & MariaDB ?
+
+الفرق بين MySQL و MariaDB ليس في كونهما محركات تخزين، بل في كونهما أنظمة إدارة قواعد بيانات (DBMS):
+
+أولاً: MySQL
+MySQL هو نظام إدارة قواعد بيانات علائقية
+.(Relational Database Management System)
+
+○ ماذا يعني هذا؟
+يعني أنه برنامج مسؤول عن:
+• إنشاء قواعد البيانات.
+• إدارة الجداول.
+• تنفيذ أوامر SQL.
+• التحكم في الصلاحيات والأداء.
+
+○ أهم خصائص MySQL: 
+•  مملوك لشركة Oracle. 
+• مفتوح المصدر (لكن بعض الميزات مدفوعة). 
+•  يدعم عدة محركات تخزين (InnoDB – MyISAM – …). 
+•  شائع جداً في تطبيقات الويب. 
+•  مستقر وقوي. 
+•  الأداء جيد، لكن التطوير أبطأ بعد استحواذ Oracle.
+
+○ مثال:
+Sql
+CREATE DATABASE test_db;
+USE test_db;
+CREATE TABLE users ( id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(100) ); 
+____________________________________________________________
+ثانياً: MariaDB
+MariaDB هو أيضاً نظام إدارة قواعد بيانات علائقية
+وهو بديل مباشر لـ MySQL.
+
+○ ماذا يعني هذا؟
+يعني أنه:
+• متوافق مع MySQL.
+• يستخدم نفس أوامر SQL.
+• يمكنه تشغيل نفس التطبيقات تقريباً.
+
+○ أهم خصائص MariaDB:
+•  مفتوح المصدر بالكامل. 
+•  طُوِّر بواسطة مؤسسي MySQL الأصليين.
+• أسرع في كثير من الحالات.
+• يحتوي على ميزات إضافية غير موجودة في MySQL.
+•  يدعم محركات تخزين متقدمة. 
+• شائع في الاستضافات الحديثة.
+
+○ مثال:
+Sql
+CREATE DATABASE test_db;
+USE test_db;
+CREATE TABLE users ( id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(100) ); 
+✔ نفس الكود تماماً مثل MySQL
+____________________________________________________________
+○ المقارنة
+/1 MySQL
+• النوع: نظام إدارة قواعد بيانات
+• الشركة: Oracle
+• مفتوح المصدر: جزئياً
+• الأداء: جيد
+• محركات التخزين: InnoDB, MyISAM
+• التوافق: الأساس
+
+/2 MariaDB
+• النوع: نظام إدارة قواعد بيانات
+• الشركة: مجتمع مفتوح المصدر
+• مفتوح المصدر: بالكامل
+• الأداء: أسرع غالباً
+• محركات التخزين: أكثر وتطور أكبر
+• التوافق: متوافق مع MySQL
+____________________________________________________________
+○ الخلاصة:
+•  .MySQL ➜ النظام الأصلي والمشهور
+• .MariaDB ➜ نسخة مطورة وأسرع من MySQL
+• يمكن استخدام نفس أوامر SQL في الاثنين.
+• .MariaDB ➜ يُعتبر البديل الأقوى والأكثر تطوراً حالياً
+____________________________________________________________
