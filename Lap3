@@ -1,0 +1,145 @@
+
+<?php
+session_start();
+?>
+
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <title>Superglobals Lab</title>
+</head>
+<body>
+
+<h2> 1$_SERVER</h2>
+<?php
+echo "<pre>";
+print_r($_SERVER);
+echo "</pre>";
+
+echo "REQUEST_METHOD: " . $_SERVER['REQUEST_METHOD'] . "<br>";
+echo "REMOTE_ADDR: " . $_SERVER['REMOTE_ADDR'] . "<br>";
+echo "HTTP_USER_AGENT: " . $_SERVER['HTTP_USER_AGENT'] . "<br>";
+?>
+
+<hr>
+
+<h2> 2 نموذج GET</h2>
+<form method="get">
+    <input type="text" name="get_name" placeholder="اكتب اسمك">
+    <button type="submit">إرسال</button>
+</form>
+
+<?php
+if (isset($_GET['get_name'])) {
+    echo "الاسم من GET: " . htmlspecialchars($_GET['get_name']);
+}
+?>
+
+<hr>
+
+<h2> 3 نموذج POST (تسجيل دخول)</h2>
+<form method="post">
+    <input type="text" name="username" placeholder="اسم المستخدم"><br><br>
+    <input type="password" name="password" placeholder="كلمة المرور"><br><br>
+    <button type="submit" name="login">دخول</button>
+</form>
+
+<?php
+if (isset($_POST['login'])) {
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+
+    if ($username === "admin" && $password === "1234") {
+        echo "مرحبًا بالمشرف";
+    } else {
+        echo "بيانات غير صحيحة";
+    }
+}
+?>
+
+<hr>
+
+<h2> 4 $_SESSION</h2>
+<?php
+if (!isset($_SESSION['name'])) {
+?>
+    <form method="post">
+        <input type="text" name="session_name" placeholder="اكتب اسمك">
+        <button type="submit">حفظ الاسم</button>
+    </form>
+<?php
+    if (isset($_POST['session_name'])) {
+        $_SESSION['name'] = $_POST['session_name'];
+        echo "تم حفظ الاسم، أعد تحميل الصفحة";
+    }
+} else {
+    echo "مرحبًا يا " . htmlspecialchars($_SESSION['name']) . "، هذه ليست زيارتك الأولى";
+}
+?>
+
+<hr>
+
+<h2> 5 رفع ملف ($_FILES)</h2>
+<form method="post" enctype="multipart/form-data">
+    <input type="file" name="myfile">
+    <button type="submit" name="upload">رفع</button>
+</form>
+
+<?php
+if (isset($_POST['upload'])) {
+
+    $fileName = $_FILES['myfile']['name'];
+    $fileSize = $_FILES['myfile']['size'];
+    $tmpName  = $_FILES['myfile']['tmp_name'];
+
+    $extension = pathinfo($fileName, PATHINFO_EXTENSION);
+
+    if ($fileSize > 2 * 1024 * 1024) {
+        echo "حجم الملف كبير";
+    } elseif (!in_array($extension, ['jpg', 'png', 'txt', 'pdf'])) {
+        echo "امتداد غير مسموح";
+    } else {
+        if (!is_dir("uploads")) {
+            mkdir("uploads");
+        }
+
+        $target = "uploads/" . basename($fileName);
+
+        if (move_uploaded_file($tmpName, $target)) {
+            echo "تم رفع الملف بنجاح";
+        } else {
+            echo "حدث خطأ أثناء الرفع";
+        }
+    }
+}
+?>
+
+<hr>
+
+<h2> 6 $_COOKIE</h2>
+<?php
+setcookie("username", "Ahmed", time() + 3600);
+
+if (isset($_COOKIE['username'])) {
+    echo "مرحبًا يا " . $_COOKIE['username'];
+} else {
+    echo "لا يوجد اسم محفوظ في الكوكي";
+}
+?>
+
+<hr>
+
+<h2> 7 $GLOBALS</h2>
+<?php
+$x = 10;
+
+function showNumber() {
+    echo $GLOBALS['x'];
+}
+
+showNumber();
+?>
+
+</body>
+</html>
